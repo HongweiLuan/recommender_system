@@ -20,9 +20,9 @@ class TestAutoRec(unittest.TestCase):
     def test_custom_loss_0(self):
         expected = 0.0
         results = custom_loss(self.y_true, self.y_pred_1)
-        self.assertTrue(expected, results)
+        self.assertEquals(expected, results)
 
     def test_custom_loss_1(self):
         expected = 1.0
         results = custom_loss(self.y_true, self.y_pred_2)
-        self.assertTrue(expected, results)
+        self.assertEquals(expected, results)
