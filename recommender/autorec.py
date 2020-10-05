@@ -43,7 +43,6 @@ mu = A.sum() / mask.sum()
 print("mu:", mu)
 
 
-
 # build the model - just a 1 hidden layer autoencoder
 i = Input(shape=(M,))
 # bigger hidden layer size seems to help!
@@ -53,43 +52,42 @@ x = Dense(700, activation='tanh', kernel_regularizer=l2(reg))(x)
 x = Dense(M, kernel_regularizer=l2(reg))(x)
 
 
-
 def custom_loss(y_true, y_pred):
-  mask = K.cast(K.not_equal(y_true, 0), dtype='float32')
-  diff = y_pred - y_true
-  sqdiff = diff * diff * mask
-  sse = K.sum(K.sum(sqdiff))
-  n = K.sum(K.sum(mask))
-  return sse / n
+    mask = K.cast(K.not_equal(y_true, 0), dtype='float32')
+    diff = y_pred - y_true
+    sqdiff = diff * diff * mask
+    sse = K.sum(K.sum(sqdiff))
+    n = K.sum(K.sum(mask))
+    return sse / n
 
 
 def generator(A, M):
-  while True:
-    A, M = shuffle(A, M)
-    for i in range(A.shape[0] // batch_size + 1):
-      upper = min((i+1)*batch_size, A.shape[0])
-      a = A[i*batch_size:upper].toarray()
-      m = M[i*batch_size:upper].toarray()
-      a = a - mu * m # must keep zeros at zero!
-      # m2 = (np.random.random(a.shape) > 0.5)
-      # noisy = a * m2
-      noisy = a # no noise
-      yield noisy, a
+    while True:
+        A, M = shuffle(A, M)
+        for i in range(A.shape[0] // batch_size + 1):
+            upper = min((i+1)*batch_size, A.shape[0])
+            a = A[i*batch_size:upper].toarray()
+            m = M[i*batch_size:upper].toarray()
+            a = a - mu * m # must keep zeros at zero!
+            # m2 = (np.random.random(a.shape) > 0.5)
+            # noisy = a * m2
+            noisy = a # no noise
+            yield noisy, a
 
 
 def test_generator(A, M, A_test, M_test):
-  # assumes A and A_test are in corresponding order
-  # both of size N x M
-  while True:
-    for i in range(A.shape[0] // batch_size + 1):
-      upper = min((i+1)*batch_size, A.shape[0])
-      a = A[i*batch_size:upper].toarray()
-      m = M[i*batch_size:upper].toarray()
-      at = A_test[i*batch_size:upper].toarray()
-      mt = M_test[i*batch_size:upper].toarray()
-      a = a - mu * m
-      at = at - mu * mt
-      yield a, at
+    # assumes A and A_test are in corresponding order
+    # both of size N x M
+    while True:
+        for i in range(A.shape[0] // batch_size + 1):
+            upper = min((i+1)*batch_size, A.shape[0])
+            a = A[i*batch_size:upper].toarray()
+            m = M[i*batch_size:upper].toarray()
+            at = A_test[i*batch_size:upper].toarray()
+            mt = M_test[i*batch_size:upper].toarray()
+            a = a - mu * m
+            at = at - mu * mt
+            yield a, at
 
 
 
