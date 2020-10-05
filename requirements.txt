@@ -1,1 +1,8 @@
+pre-commit
+tensorflow
+keras
 numpy
+matplotlib
+pandas
+scikit-learn
+scipy
