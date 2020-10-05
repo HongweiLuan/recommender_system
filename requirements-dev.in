@@ -1,0 +1,7 @@
+pre-commit==2.*,>=2.6.0
+tensorflow==2.*,>=2.1.0
+keras==2.*,>=2.1.0
+numpy==1.*,>=1.17.0
+matplotlib==3.*,>=3.1.0
+pandas==1.*,>=1.1.0
+scikit-learn==0.23.*,>=0.23.0

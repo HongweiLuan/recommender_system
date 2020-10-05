@@ -11,6 +11,14 @@
 
 from pyspark.mllib.recommendation import ALS, MatrixFactorizationModel, Rating
 import os
+from pyspark.mllib.recommendation import ALS, MatrixFactorizationModel, Rating
+from pyspark import SparkContext
+
+# increase memory
+# SparkContext.setSystemProperty('spark.driver.memory', '10g')
+# SparkContext.setSystemProperty('spark.executor.memory', '10g')
+
+sc = SparkContext("local", "Your App Name Here")
 
 # load in the data
 data = sc.textFile("../large_files/movielens-20m-dataset/small_rating.csv")
