@@ -1,6 +1,14 @@
 import unittest
 import numpy as np
-from recommender.autorec import custom_loss
+
+
+def custom_loss(y_true, y_pred):
+    mask = K.cast(K.not_equal(y_true, 0), dtype='float32')
+    diff = y_pred - y_true
+    sqdiff = diff * diff * mask
+    sse = K.sum(K.sum(sqdiff))
+    n = K.sum(K.sum(mask))
+    return sse / n
 
 
 class TestAutoRec(unittest.TestCase):
